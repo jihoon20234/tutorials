@@ -1,4 +1,5 @@
 from pylsl import StreamInlet, resolve_stream
+import time
 
 # EEG 스트림을 찾습니다
 eeg_streams = resolve_stream('type', 'EEG')
@@ -21,13 +22,16 @@ while not channels.empty():
 print("Channel names:", channel_names)
 print("Channel count:", len(channel_names))
 
-# 샘플을 가져옵니다
-sample, timestamp = eeg_inlet.pull_sample()
+# 데이터 수집을 위한 변수 초기화
+all_samples = []
+start_time = time.time()
 
-# 채널 이름과 샘플 값을 결합합니다
-channel_data = dict(zip(channel_names, sample))
-print(channel_data)
-print("Timestamp:", timestamp)
-print("Channel Data:")
-for channel, value in channel_data.items():
-    print(f"{channel}: {value}")
+# 5초 동안 데이터 수집
+while time.time() - start_time < 5:
+    sample, timestamp = eeg_inlet.pull_sample()
+    if sample:
+        all_samples.append(dict(zip(channel_names, sample)))
+
+# 수집된 데이터 출력
+for idx, data in enumerate(all_samples):
+    print(f"Sample {idx + 1}: {data}")
