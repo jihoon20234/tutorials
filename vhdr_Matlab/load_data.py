@@ -1,17 +1,15 @@
-import os
 import itertools
+import os
 import numpy as np
 import mne
 from scipy.io import loadmat
 
-# raw 데이터 경로 및 subject, session 정보
-dire = '/Matlab'
-save_dir = '/artifact_remove'
-subjects = ['sub1']
+dire = '/Users/favorcat/Matlab/2_word'
+save_dir = '/Users/favorcat/Matlab/artifact_remove'
+subjects = ['sub4']
 sessions = ['day1','day2']
 
-# 채널 위치 정보 불러오기
-chanlocs_path = '/chanlocs.mat'
+chanlocs_path = '/Users/favorcat/Matlab/2_word/chanlocs.mat'
 chanlocs_data = loadmat(chanlocs_path)
 chanlocs = chanlocs_data['chanlocs'][0]
 channels = []
@@ -24,11 +22,39 @@ for i in range(127):
   z = chanlocs[i][6][0][0] # z
   channels.append([label, x, y, z])
   
-# 각 조건에 따른 이벤트 ID 및 레이블
-stim_all = [list(itertools.chain([1,2,3,4], [5,6,7,8], [9,10,11,12], [13,14,15,16])),
-            list(itertools.chain(['a','b','c','d'], ['e','f','g','h'], ['i','j','k','l'], ['m','n','o','p']))]
+stim_def = [[17,21,33,37,49,53,65,69,81,85,97,101,113,117,129,133,145,149,161,165],
+            ['Sad','Amused','Positive','Disappointed',
+            'Peach','Mango','Strawberry','Watermelon',
+            'Horse','Tiger','Buffalo','Alligator',
+            'House','Notebook','Apartment','Television',
+            'Death','Weather','January','Conversation']]
 
-ival = [-1.5, 0]  # 초 단위
+stim_p = [[0] * 20, ['']*20]
+stim_o = [[0] * 20, ['']*20]
+stim_w = [[0] * 20, ['']*20]
+stim_i = [[0] * 20, ['']*20]
+
+for i in range(len(stim_def[0])):
+  # perception
+  stim_p[0][i] = stim_def[0][i]
+  stim_p[1][i] = stim_def[1][i] + '_p'
+  
+  # overt
+  stim_o[0][i] = stim_def[0][i] + 1
+  stim_o[1][i] = stim_def[1][i] + '_o'
+  
+  # whisper
+  stim_w[0][i] = stim_def[0][i] + 2
+  stim_w[1][i] = stim_def[1][i] + '_w'
+  
+  # imagined
+  stim_i[0][i] = stim_def[0][i] + 3
+  stim_i[1][i] = stim_def[1][i] + '_i'
+
+stim_all = [list(itertools.chain(stim_p[0],stim_o[0],stim_w[0],stim_i[0])),
+            list(itertools.chain(stim_p[1],stim_o[1],stim_w[1],stim_i[1]))]
+
+ival = [-1.5, 0]  # 초 단위로 변경
 
 # load data
 for sub in subjects:
@@ -45,7 +71,8 @@ for sub in subjects:
         print('Please check the number of files')
         continue
     
-    # MNE 라이브러리를 사용하여 EEG 데이터 읽기
+    # 파일 읽기 및 데이터 처리
+    # 예시: MNE 라이브러리를 사용하여 EEG 데이터 읽기
     raw = mne.io.read_raw_brainvision(os.path.join(file_dir, files[0]), preload=True)
     event_id = {label: num for label, num in zip(stim_all[1], stim_all[0])}
     events, _ = mne.events_from_annotations(raw)
