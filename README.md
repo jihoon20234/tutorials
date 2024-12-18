@@ -37,3 +37,9 @@ Brain-to-speech technology refers to a cutting-edge interface that directly tran
 
 ---
 ### Brain-to-speech is an emerging field with immense potential to transform communication, bridging the gap between thought and spoken language.
+
+---
+## Baseline model
+- Diff-E: Diffusion-based Learning for Decoding Imagined Speech EEG
+
+---
