@@ -4,6 +4,7 @@ import numpy as np
 import mne
 from scipy.io import loadmat
 
+# 실행 전 수정 필수
 dire = '/Users/favorcat/Matlab/2_word'
 save_dir = '/Users/favorcat/Matlab/artifact_remove'
 subjects = ['sub4']
