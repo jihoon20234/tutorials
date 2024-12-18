@@ -45,3 +45,4 @@ Diff-E: Diffusion-based Learning for Decoding Imagined Speech EEG
 ---
 Acknowledgment: This project was supported by the Institute of Information & Communications Technology Planning & Evaluation(IITP) grant funded by the Korea government(MSIT) (No. RS-2024-00336673, AI Technology for Interactive Communication of Language Impaired Individuals)
 
+.
