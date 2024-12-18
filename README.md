@@ -14,3 +14,7 @@ Brain-to-speech technology refers to a cutting-edge interface that directly tran
 
 ### Feedback and Refinement
 - Users may receive feedback to adjust or refine their thought processes, improving the accuracy and fluency of the system over time.
+
+## Applications
+### Medical
+- Assisting individuals with speech impairments caused by conditions like ALS (amyotrophic lateral sclerosis) or stroke.
